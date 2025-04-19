@@ -10,7 +10,7 @@ public class GetAlphaAdjustedColor(IColorManipulatorService colorManipulatorServ
 {
     public override void Configure()
     {
-        Get(GetAlphaAdjustedColorRequest.Route);
+        Post(GetAlphaAdjustedColorRequest.Route);
         AllowAnonymous();
     }
 
