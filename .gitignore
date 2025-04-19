@@ -1,0 +1,17 @@
+# Node
+node_modules/
+.next/
+.env*
+
+# .NET
+.idea
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.csproj.user
+
+# General
+.DS_Store
+Thumbs.db
