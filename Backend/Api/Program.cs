@@ -25,6 +25,8 @@ builder.Services.AddFastEndpoints()
 
 var app = builder.Build();
 
+app.UseCors("AllowFrontend");
+
 await app.UseAppMiddlewareAndSeedDatabase();
 
 app.Run();

@@ -16,6 +16,17 @@ public static class OptionConfigs
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowFrontend",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
+
         logger.LogInformation("{Project} were configured", "Options");
 
         return services;

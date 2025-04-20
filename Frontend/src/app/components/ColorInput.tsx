@@ -11,8 +11,9 @@ function clamp(value: number) {
 
 
 type ColorInputProps = {
+    isBackground: boolean;
     text: string
-    onColorChange: (hex: string) => void
+    onColorChange?: (hex: string) => void
 }
 
 export default function ColorInput(props: ColorInputProps) {
@@ -24,10 +25,10 @@ export default function ColorInput(props: ColorInputProps) {
         formState: {errors},
     } = useForm<Color>({
         defaultValues: {
-            name: '#ff0000',
+            name: '#000000',
             r: 255,
-            g: 0,
-            b: 0,
+            g: 255,
+            b: 255,
             a: 0
         },
     });
@@ -44,6 +45,7 @@ export default function ColorInput(props: ColorInputProps) {
 
     // ⬅️ When hex changes → update RGB
     useEffect(() => {
+        props.onColorChange?.(hex);
         if (skipRgbUpdate.current) {
             skipRgbUpdate.current = false;
             return;
@@ -65,8 +67,6 @@ export default function ColorInput(props: ColorInputProps) {
     }, [hex]);
 
     useEffect(() => {
-        props.onColorChange?.(hex);
-
         if (skipHexUpdate.current) {
             skipHexUpdate.current = false;
             return;
@@ -104,7 +104,7 @@ export default function ColorInput(props: ColorInputProps) {
                         },
                     })}
                     className="border p-2 rounded w-full"
-                    placeholder="#ff0000"
+                    placeholder="#fffffff"
                 />
                 {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
@@ -125,6 +125,7 @@ export default function ColorInput(props: ColorInputProps) {
                 </div>
 
                 <div
+                    hidden={props.isBackground}
                     className="w-full h-12 rounded mt-4 border"
                     style={{backgroundColor: hex}}
                 />
