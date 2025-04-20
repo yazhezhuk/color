@@ -1,9 +1,8 @@
 "use client"
 
-import Image from "next/image";
 import ColorInput from "@/app/components/ColorInput";
 import {useEffect, useState} from "react";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
 
 
 export type Color = {
@@ -27,7 +26,7 @@ const getBrightness = (r: number, g: number, b: number): number => {
 
 // Convert hex color to RGB
 const hexToRgb = (hex: string): [number, number, number] => {
-  let r = 0, g = 0, b = 0, a = 0;
+  let r = 0, g = 0, b = 0;
   if (hex.length === 7) {
     r = parseInt(hex.slice(1, 3), 16);
     g = parseInt(hex.slice(3, 5), 16);

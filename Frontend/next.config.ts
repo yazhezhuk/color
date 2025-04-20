@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
-
+/** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-  /* config options here */
+    output: "export",
+    basePath: '/color',
+    assetPrefix: '/color/',
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
+module.exports = nextConfig;
 
 export default nextConfig;

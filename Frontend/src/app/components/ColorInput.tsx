@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useRef} from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {Color} from "@/app/page";
 
 
@@ -21,7 +21,6 @@ export default function ColorInput(props: ColorInputProps) {
         register,
         setValue,
         watch,
-        control,
         formState: {errors},
     } = useForm<Color>({
         defaultValues: {
@@ -37,7 +36,6 @@ export default function ColorInput(props: ColorInputProps) {
     const r = watch('r');
     const g = watch('g');
     const b = watch('b');
-    const a = watch('a');
 
 
     const skipHexUpdate = useRef(false);
