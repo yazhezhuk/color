@@ -21,7 +21,7 @@ public static class ServiceConfigs
             // Otherwise use this:
             //builder.Services.AddScoped<IEmailSender, FakeEmailSender>();
 
-            builder.Services.AddTransient<IColorManipulatorService, ColorManipulatorServiceService>();
+            builder.Services.AddTransient<IColorManipulatorService, ColorManipulatorService>();
             builder.Services.AddTransient<IColorParserService, ColorParserService>();
 
         }

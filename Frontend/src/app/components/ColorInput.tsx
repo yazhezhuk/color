@@ -1,132 +1,121 @@
 'use client';
 
-import {useEffect, useRef} from 'react';
-import { useForm } from 'react-hook-form';
-import {Color} from "@/app/page";
-
-
-function clamp(value: number) {
-    return Math.max(0, Math.min(255, value));
-}
-
+import React, {useEffect, useRef, useState} from 'react';
+import ColorPicker from "@/app/components/ColorPicker";
 
 type ColorInputProps = {
     isBackground: boolean;
-    text: string
-    onColorChange?: (hex: string) => void
+    text: string,
+    hex: string
+    onColorChange: (hex: string) => void
 }
 
 export default function ColorInput(props: ColorInputProps) {
-    const {
-        register,
-        setValue,
-        watch,
-        formState: {errors},
-    } = useForm<Color>({
-        defaultValues: {
-            name: '#000000',
-            r: 255,
-            g: 255,
-            b: 255,
-            a: 0
-        },
-    });
-
-    const hex = watch('name');
-    const r = watch('r');
-    const g = watch('g');
-    const b = watch('b');
-
-
-    const skipHexUpdate = useRef(false);
-    const skipRgbUpdate = useRef(false);
-
-    // ⬅️ When hex changes → update RGB
-    useEffect(() => {
-        props.onColorChange?.(hex);
-        if (skipRgbUpdate.current) {
-            skipRgbUpdate.current = false;
-            return;
-        }
-
-        const isValidHex = /^#?([a-f\d]{6})$/i.test(hex);
-        if (isValidHex) {
-            const normalized = hex.startsWith('#') ? hex.slice(1) : hex;
-            const bigint = parseInt(normalized, 16);
-            const r = (bigint >> 16) & 255;
-            const g = (bigint >> 8) & 255;
-            const b = bigint & 255;
-
-            skipHexUpdate.current = true;
-            setValue('r', r);
-            setValue('g', g);
-            setValue('b', b);
-        }
-    }, [hex]);
+    const [color, setColor] = useState(props.hex)
+    const [showPicker, setShowPicker] = useState(false);
 
     useEffect(() => {
-        if (skipHexUpdate.current) {
-            skipHexUpdate.current = false;
-            return;
-        }
+    }, []);
 
-        const rClamped = clamp(r);
-        const gClamped = clamp(g);
-        const bClamped = clamp(b);
-        const toHex = (val: number) => val.toString(16).padStart(2, '0');
-        const newHex = `#${toHex(rClamped)}${toHex(gClamped)}${toHex(bClamped)}`;
+    //validation hook
+    // useEffect(() => {
+    //     //because picker always returns correct data
+    //     if (usingPicker)
+    //         return;
+    //
+    //     if (hex.length === 7)
+    //
+    //
+    //     const isValidHex = /^([a-f\d]{6})$/i.test(hex);
+    //     if (isValidHex) {
+    //         const normalized = hex.startsWith('#') ? hex.slice(1) : hex;
+    //
+    //         const bigint = parseInt(normalized, 16);
+    //         const r = (bigint >> 16) & 255;
+    //         const g = (bigint >> 8) & 255;
+    //         const b = bigint & 255;
+    //
+    //         setR(r);
+    //         setG(g);
+    //         setB(b);
+    //     }
+    // }, [hex]);
 
-        if (newHex.toLowerCase() !== hex.toLowerCase()) {
-            skipRgbUpdate.current = true;
-            setValue('name', newHex);
-        }
+    useEffect(() => {
+        setColor(props.hex);
+    }, [props.hex]);
 
+    const handleColorTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.target.value = e.target.value
+            .replace(/[^0-9a-fA-F]/g, '')
+            .slice(0,6);
 
-    }, [r, g, b]);
+        setColor(e.currentTarget.value);
 
-    const handleRgbChange = (field: 'r' | 'g' | 'b') => (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = Math.max(0, Math.min(255, parseInt(e.target.value) || 0));  // Clamp value
-        setValue(field, value);  // Set the clamped value
+        if (e.target.value.length === 6)
+            props.onColorChange(e.target.value);
+    };
+
+    const handleColorChange = (color: string)=> {
+        props.onColorChange(color);
     }
 
 
+    // useEffect(() => {
+    //     if (skipHexUpdate.current) {
+    //         skipHexUpdate.current = false;
+    //         return;
+    //     }
+    //
+    //     const rClamped = clamp(r);
+    //     const gClamped = clamp(g);
+    //     const bClamped = clamp(b);
+    //     const toHex = (val: number) => val.toString(16).padStart(2, '0');
+    //     const newHex = `#${toHex(rClamped)}${toHex(gClamped)}${toHex(bClamped)}`;
+    //
+    //     if (newHex.toLowerCase() !== hex.toLowerCase()) {
+    //         skipRgbUpdate.current = true;
+    //         setValue('name', newHex);
+    //     }
+    //
+    //
+    // }, [r, g, b]);
+
         return (
-            <div className="p-4 border rounded max-w-md space-y-4">
-                <label className="block text-sm font-medium">{props.text}</label>
-                <input
-                    type="text"
-                    {...register('name', {
-                        pattern: {
-                            value: /^#?([a-fA-F0-9]{6})$/,
-                            message: 'Invalid hex color',
-                        },
-                    })}
-                    className="border p-2 rounded w-full"
-                    placeholder="#fffffff"
-                />
-                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+            <div className="flex flex-col flex-wrap rounded space-y-2">
+                <label className="font-medium">{props.text}</label>
+                <div className="relative w-fit">
+                    <div onClick={() => setShowPicker(!showPicker)} style={{borderColor:'rgba(217, 217, 217, 1)',backgroundColor: '#'+ props.hex}} className='rounded border h-6 w-6 absolute left-2 top-1/2 -translate-y-1/2 '></div>
+                    <span className="absolute left-9 top-1/2 -translate-y-1/2  pointer-events-none select-none">#</span>
+                    <input
+                        type="text"
+                        className="w-full pl-11 py-2 border rounded outline-none"
+                        maxLength={7}
+                        value={color}
+                        onChange={handleColorTextChange}
 
-                <div className="grid grid-cols-3 gap-2">
-                    {(['r', 'g', 'b'] as const).map((color) => (
-                        <div key={color}>
-                            <label className="block text-sm font-medium">{color.toUpperCase()}</label>
-                            <input
-                                type="number"
-                                value={color === 'r' ? r : color === 'g' ? g : b}
-                                onChange={handleRgbChange(color)}
-                                className="border p-2 rounded w-full"
-                                min={0}
-                                max={255}
-                            />
-                        </div>
-                    ))}
+                    />
                 </div>
-
+                {/*rgb fields*/}
+                {/*<div className="grid grid-cols-3 gap-2">*/}
+                {/*    {(['r', 'g', 'b'] as const).map((color) => (*/}
+                {/*        <div key={color}>*/}
+                {/*            <label className="block text-sm font-medium">{color.toUpperCase()}</label>*/}
+                {/*            <input*/}
+                {/*                type="number"*/}
+                {/*                value={color === 'r' ? r : color === 'g' ? g : b}*/}
+                {/*                onChange={handleRgbChange(color)}*/}
+                {/*                className="border p-2 rounded w-full"*/}
+                {/*                min={0}*/}
+                {/*                max={255}*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*    ))}*/}
+                {/*</div>*/}
                 <div
-                    hidden={props.isBackground}
-                    className="w-full h-12 rounded mt-4 border"
-                    style={{backgroundColor: hex}}
-                />
+                    className="w-full rounded">
+                    <ColorPicker style={{display: showPicker ? 'flex' : 'none'}} colorText={props.hex} onColorChange={handleColorChange} />
+                </div>
             </div>
         );
 }
