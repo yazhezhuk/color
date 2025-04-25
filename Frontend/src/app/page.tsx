@@ -338,15 +338,15 @@ export default function Home() {
                 <span className='font-medium text-lg'>Before adjustment</span>
                 <div>
                   <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-                  <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
+                  <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-full '>
                     Placeholder
                   </div>
                 </div>
-                <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
+                <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-full '>
                   <span className='font-medium text-lg'>Card label</span>
                   <div className="mt-3">
                     <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
+                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-full '>
                       Placeholder
                     </div>
                   </div>
@@ -358,15 +358,15 @@ export default function Home() {
                 <span className='font-medium text-lg'>After adjustment</span>
                 <div>
                   <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
+                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-full '>
                     Placeholder
                   </div>
                 </div>
-                <div style={{backgroundColor:'#' + foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
+                <div style={{backgroundColor:'#' + foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-full '>
                   <span className='font-medium text-lg'>Card label</span>
                   <div className="mt-3">
                     <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
+                    <div style={{'--color': '23B57373FF',backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 rounded-lg w-full '>
                       Placeholder
                     </div>
                   </div>
