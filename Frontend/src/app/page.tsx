@@ -218,7 +218,7 @@ export default function Home() {
             {/* <button style={{backgroundColor: '#'+ fontColor, color: '#'+invertColor(fontColor)}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
               Get colors
             </button> */}
-            <button style={{backgroundColor: '#121212', color: '#ffffff'}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
+            <button style={{backgroundColor: '#121212', color: '#ffffff'}} className="cursor-pointer font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
               Get colors
             </button>
 

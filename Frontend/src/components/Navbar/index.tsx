@@ -24,6 +24,7 @@ export default function Navbar() {
                         </svg>
                         <div className="text-2xl font-medium">Tinteligent</div>
                     </div>
+                    {/* <a href="mailto:frorex.studio@gmail.com" className="cursor-pointer underline my-auto font-medium">Feedback</a> */}
                     <div onClick={() => setMail(!mail)} className="cursor-pointer underline my-auto font-medium">{mailState.get(mail)}</div>
                 </div>
             </div>
