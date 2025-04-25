@@ -1,11 +1,11 @@
 "use client"
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Providers from './providers';
-import Navbar from "@/app/components/Navbar";
-import {AlertBox} from "@/app/AlertBox";
-import React, {useState} from "react";
-import Footer from "@/app/components/Footer";
+import "../globals.css";
+import Providers from '../providers';
+import Navbar from "@/components/Navbar";
+// import {AlertBox} from "@/app/AlertBox";
+import React from "react";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +35,9 @@ export default function RootLayout({
       <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-      <Navbar/>
-      <Providers>{children}</Providers>
-      <Footer/>
+        <Navbar/>
+        <Providers>{children}</Providers>
+        <Footer/>
       </body>
       </html>
   );

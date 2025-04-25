@@ -1,6 +1,6 @@
 'use client'
 
-import ColorInput from "@/app/components/ColorInput";
+import ColorInput from "@/components/ColorInput";
 import React, {useEffect, useState} from "react";
 import {useMutation} from "@tanstack/react-query";
 import {
@@ -10,9 +10,9 @@ import {
   invertColor,
   rgbToHex,
   valueInRange
-} from "@/app/helpers/ColorHelper";
+} from "@/helpers/ColorHelper";
 import {toNumber} from "lodash";
-import {ColorCard} from "@/app/components/ColorCard";
+import {ColorCard} from "@/components/ColorCard";
 
 const isGithubPages = () => process.env.NEXT_PUBLIC_GITHUB_PAGES=="true";
 
@@ -200,13 +200,14 @@ export default function Home() {
   return (
     <div className="flex w-full items-center justify-items-center min-h-screen gap-14 font-[family-name:var(--font-geist-sans)]">
 
-      <main className="p-6 container min-h-screen sm:p-12 sm:pt-6 flex flex-col gap-[32px] md:flex-col" >
+      <main className="p-6 flex flex-row container min-h-screen sm:p-12 sm:pt-6 flex flex-col gap-[32px] md:flex-col" >
         
         <aside className="flex flex-col space-y-4 w-[312px]">
 
            {/*text*/}
           <div className="flex flex-col">
-            <span style={{fontSize: 22, backgroundImage: `linear-gradient(45deg, ${'#'+foreground}, ${'#'+background})`}} className='bg-clip-text text-transparent font-bold'>Tintelligent</span>
+            {/* <span style={{fontSize: 22, backgroundImage: `linear-gradient(45deg, ${'#'+foreground}, ${'#'+background})`}} className='bg-clip-text text-transparent font-bold'>Tintelligent</span> */}
+            <span style={{fontSize: 22, color: '#121212'}} className='text-transparent font-bold'>Tintelligent</span>
             <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Auto-generate foreground tints with transparency — perfect look on any background.</span>
           </div>
 
@@ -214,9 +215,13 @@ export default function Home() {
           <div className="flex flex-col space-y-4">
             <ColorInput isBackground={false} text={'Foreground'} hex={foreground} onColorChange={setForeground}/>
             <ColorInput isBackground={true} text={'Background'} hex={background} onColorChange={setBackground}/>
-            <button style={{backgroundColor: '#'+ fontColor, color: '#'+invertColor(fontColor)}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
+            {/* <button style={{backgroundColor: '#'+ fontColor, color: '#'+invertColor(fontColor)}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
+              Get colors
+            </button> */}
+            <button style={{backgroundColor: '#121212', color: '#ffffff'}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
               Get colors
             </button>
+
             <div className="flex flex-col">
               <label className="text-sm font-medium">Select range</label>
 
@@ -246,33 +251,46 @@ export default function Home() {
         )}
         </aside>
 
-        <div className="flex flex-col">
-          <span style={{fontSize: 22}} className='font-bold'>Alpha adjusted tints</span>
-          <div className="flex flex-row my-3 gap-12">
-            {/*filters*/}
-            <div className="flex flex-column gap-1">
-              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select opacity range</span>
-              <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='5' onChange={handleAlphaRangeChange}>
-                <option value="1">0-5</option>
-                <option value="2">5-10</option>
-                <option value="3">10-15</option>
-                <option value="4">15-20</option>
-                <option value="5">0-100</option>
-              </select>
-            </div>
-            
-            <div className="flex flex-column gap-1">
-              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select alpha precision</span>
-              <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2' onChange={handleAlphaPrecisionChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+        <div className="main-wrapper flex-col flex w-full">
+          <div className="flex flex-col">
+            <span style={{fontSize: 22}} className='font-bold'>Alpha adjusted tints</span>
+            <div className="flex flex-row my-3 gap-12">
+              {/*filters*/}
+              <div className="flex flex-col gap-1 w-full">
+                <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select opacity range</span>
+                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='5' onChange={handleAlphaRangeChange}>
+                  <option value="1">0-5</option>
+                  <option value="2">5-10</option>
+                  <option value="3">10-15</option>
+                  <option value="4">15-20</option>
+                  <option value="5">0-100</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1 w-full">
+                <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select alpha precision</span>
+                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2' onChange={handleAlphaPrecisionChange}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1 w-full">
+                <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select count colors</span>
+
+                {/* Counts colors // add onchange please*/}
+                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2'>
+                  <option value="1">5</option>
+                  <option value="2">10</option>
+                  <option value="3">20</option>
+                  <option value="4">30</option>
+                  <option value="5">40</option>
+                  <option value="6">50</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="main-wrapper">
 
           {/*colorі section*/}
           <div className={`grid mt-7 p-6 grid-cols-5 grid-rows-4 rounded-xl gap-[12px]`} style={{backgroundColor: '#'+background, color: foregroundFontColor}}>

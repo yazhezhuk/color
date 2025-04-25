@@ -1,5 +1,5 @@
 import React from "react";
-import {AlertBox} from "@/app/AlertBox";
+import {AlertBox} from "@/components/AlertBox";
 
 type CardProps = {
     style?: React.CSSProperties;
@@ -30,7 +30,7 @@ export const ColorCard = ({ style,alpha, hex }: CardProps) => {
                     onClose={() => setShowAlert(false)}
                 />
             )}
-            <div className="font-bold text-sm md:text-base w-auto text-center"> {alpha}</div>
+            <div className="font-bold text-sm md:text-base w-auto text-center">{alpha}</div>
             <div className="font-bold text-sm md:text-base w-auto"> <span className="font-normal"></span>#{hex}</div>
         </div>
     );
