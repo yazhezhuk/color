@@ -30,12 +30,21 @@ export default function RootLayout({
       <html lang="en">
       <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-          <title>Color</title>
+          <title>Tinteligent - foreground alpha adjusted color generation</title>
+          <meta name="author" content="@yazhezhuk & @korytsky"/>
+          <meta name="description"
+                content="Auto-generate foreground tints with transparency — perfect look on any background."/>
+          <link rel="icon" type="image/png" sizes="32x32" href="/tinteligent/favicon-32x32.png"/>
+          <link rel="icon" type="image/png" sizes="96x96" href="/tinteligent/favicon-96x96.png"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="/tinteligent/favicon-16x16.png"/>
+          <link rel="manifest" href="/tinteligent/manifest.json"/>
+          <meta name="theme-color" content="#ffffff"/>
+
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar/>
-        <div>{children}</div>
-        <Footer/>
+      <Navbar/>
+      <div>{children}</div>
+      <Footer/>
       </body>
       </html>
   );

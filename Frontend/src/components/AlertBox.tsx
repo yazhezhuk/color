@@ -46,16 +46,11 @@ export const AlertBox = ({ message,duration = 3000, type = 'info', onClose, styl
     }, []);
 
     return (
-        <div
-            className={`transition-opacity  duration-500 ease-in-out ${
+        <div style={{pointerEvents: 'none'}}
+            className={`transition-opacity duration-500 ease-in-out ${
                 visible ? 'opacity-100' : 'opacity-0'
             } border-l-4 p-4 rounded-md shadow-md ${alertColors[type]} fixed left-1/2 translate-x-[-50%] translate-y-[-50%] top-[48px] flex justify-between items-center`}>
             <span>{message}</span>
-            {onClose && (
-                <button onClick={onClose} className="ml-4 text-lg font-bold">
-                    &times;
-                </button>
-            )}
         </div>
     );
 };

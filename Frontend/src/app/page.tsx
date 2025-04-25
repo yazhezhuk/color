@@ -44,11 +44,10 @@ export default function Home() {
   const [background, setBackground] = useState("f5f4f8");
   const [foreground, setForeground] = useState("dddeef");
 
-  const [maxColors, setMaxColors] = useState(5);
-  const [maxColorsNormalized, setMaxColorsNormalized] = useState(5);
+  const [maxColors, setMaxColors] = useState(30);
 
   const [alphaRange, setAlphaRange] = useState<[number,number]>([0,100]);
-  const [alphaPrecision, setAlphaPrecision] = useState(2);
+  const [alphaPrecision, setAlphaPrecision] = useState(1);
 
   const [colors,setColors] = useState<Color[]>([])
 
@@ -58,6 +57,10 @@ export default function Home() {
 
   const getColorString = (color: Color) => {
     return `rgba(${color.r},${color.g},${color.b},${color.a})`;
+  }
+
+  const getRawColorString = (color: [number,number,number,number]) => {
+    return `rgba(${color[0]},${color[1]},${color[2]},${color[3]})`;
   }
 
   // const mutation = useMutation<void, Error, AlphaColorRequest>({mutationFn: async (req: AlphaColorRequest) : Promise<void> => {
@@ -110,10 +113,10 @@ export default function Home() {
     // Otherwise, set text color to black (light background)
     if (brightness <= 128) {
       setSecondaryForegroundFontColor('aaaaaa')
-      setForegroundFontColor('white');
+      setForegroundFontColor('ffffff');
     } else {
       setSecondaryForegroundFontColor('555555')
-      setForegroundFontColor('black');
+      setForegroundFontColor('000000');
     }
   }, [foreground]);
 
@@ -146,24 +149,16 @@ export default function Home() {
     }
   }
   const handleAlphaPrecisionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    switch (e.target.value) {
-      case '1': setAlphaPrecision(1); break;
-      case '2': setAlphaPrecision(2); break;
-      case '3': setAlphaPrecision(3); break;
-    }
+    setAlphaPrecision(Number(e.target.value));
   }
-  const handleRange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const range = [5,10,15,20]
-    const i = Math.round(toNumber(e.target.value)/5) - 1
-
-    setMaxColorsNormalized(range[i])
+  const handleRange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMaxColors(toNumber(e.target.value))
   }
 
   const handleClearFilters = ( e: React.FormEvent) => {
     setAlphaPrecision(2)
     setMaxColors(17.55)
-    setMaxColorsNormalized(20)
+    setMaxColors(20)
     setAlphaRange([0.1,100])
   }
 
@@ -187,8 +182,8 @@ export default function Home() {
         .map(c => getColorStringNormalized(c))
         .filter((val,idx,array) => array.indexOf(val) === idx)
         .map(s => parseRgba(s))
-    if (filtered.length <= maxColorsNormalized) return filtered
-    else return filtered.slice(0, maxColorsNormalized)
+    if (filtered.length <= maxColors) return filtered
+    else return filtered.slice(0, maxColors)
   }
 
   const getItemName = (item: Color) => {
@@ -200,7 +195,7 @@ export default function Home() {
   return (
     <div className="flex px-4 py-8 w-full font-[family-name:var(--font-geist-sans)]">
 
-      <main className="flex flex-row container m-auto gap-[32px] md:flex-col" >
+      <main className="flex flex-row container m-auto gap-[32px]" >
         
         <aside className="flex flex-col space-y-4 w-[312px]">
 
@@ -221,22 +216,6 @@ export default function Home() {
             <button style={{backgroundColor: '#121212', color: '#ffffff'}} className="cursor-pointer font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
               Get colors
             </button>
-
-            <div className="flex flex-col">
-              <label className="text-sm font-medium">Select range</label>
-
-              <input
-                type="range"
-                className=" rounded "
-                value={maxColors}
-                onChange={handleRange}
-                max={17.55}
-                min={7.45}
-                step="0.1"
-                style={{accentColor: 'black',transitionProperty: 'all', transitionDuration: '0.5s', transitionTimingFunction: 'linear'}}
-              />
-              <span className="text-sm font-medium m-auto">{maxColorsNormalized}</span>
-            </div>
           </div>
           {/* {mutation.isPending ? (
             'Adding todo...'
@@ -269,7 +248,7 @@ export default function Home() {
 
               <div className="flex flex-col gap-1 w-full">
                 <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select alpha precision</span>
-                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2' onChange={handleAlphaPrecisionChange}>
+                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue={alphaPrecision.toString()} onChange={handleAlphaPrecisionChange}>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -280,26 +259,28 @@ export default function Home() {
                 <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select count colors</span>
 
                 {/* Counts colors // add onchange please*/}
-                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2'>
-                  <option value="1">5</option>
-                  <option value="2">10</option>
-                  <option value="3">20</option>
-                  <option value="4">30</option>
-                  <option value="5">40</option>
-                  <option value="6">50</option>
+                <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue={maxColors.toString()} onChange={handleRange}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="40">40</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+
                 </select>
               </div>
             </div>
           </div>
 
           {/*colorі section*/}
-          <div className={`grid mt-7 p-6 grid-cols-5 grid-rows-4 rounded-xl gap-[12px]`} style={{backgroundColor: '#'+background, color: foregroundFontColor}}>
+          <div className={`grid mt-7 p-6 grid-cols-5 grid-rows-[${maxColors/5}] rounded-xl gap-[12px]`} style={{backgroundColor: '#'+background, color: '#'+foregroundFontColor}}>
             { colors.length !== 0
                 ?
                 (filterColor(colors).length !== 0 ?
                     (filterColor(colors).map((item ,index) =>
                       <ColorCard style={{backgroundColor: getColorString(item)}} key={index} hex={getItemName(item)}
-                                 alpha={(item.a * 100).toFixed(alphaPrecision) + '%'}/>
+                                 alpha={(item.a * 100).toFixed(alphaPrecision-1) + '%'}/>
                     )) : (<div className="flex flex-col items-center space-y-5 row-span-4 col-span-5 justify-center">
                       <div className="flex flex-col items-center">
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -338,15 +319,15 @@ export default function Home() {
                 <span className='font-medium text-lg'>Before adjustment</span>
                 <div>
                   <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-                  <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-full '>
+                  <div  style={{backgroundColor:'#'+foreground,color: '#'+foregroundFontColor}} className='p-3 rounded-lg w-full '>
                     Placeholder
                   </div>
                 </div>
-                <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-full '>
+                <div style={{backgroundColor:'#'+foreground,color: '#'+foregroundFontColor}} className='p-5 rounded-lg w-full '>
                   <span className='font-medium text-lg'>Card label</span>
                   <div className="mt-3">
                     <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-full '>
+                    <div style={{borderColor: getRawColorString([...hexToRgb(foregroundFontColor),0.15]),backgroundColor:'#'+foreground,color: '#'+foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-full '>
                       Placeholder
                     </div>
                   </div>
@@ -358,7 +339,7 @@ export default function Home() {
                 <span className='font-medium text-lg'>After adjustment</span>
                 <div>
                   <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-full '>
+                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: '#'+foregroundFontColor}} className='p-3 rounded-lg w-full '>
                     Placeholder
                   </div>
                 </div>
@@ -366,7 +347,7 @@ export default function Home() {
                   <span className='font-medium text-lg'>Card label</span>
                   <div className="mt-3">
                     <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                    <div style={{'--color': '23B57373FF',backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 rounded-lg w-full '>
+                    <div style={{'--color': '23B57373FF',backgroundColor:getColorStringNormalized(colors[0]),color: '#'+foregroundFontColor} as React.CSSProperties} className='p-3 rounded-lg w-full '>
                       Placeholder
                     </div>
                   </div>
