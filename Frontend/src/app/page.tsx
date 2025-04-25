@@ -2,7 +2,7 @@
 
 import ColorInput from "@/components/ColorInput";
 import React, {useEffect, useState} from "react";
-import {useMutation} from "@tanstack/react-query";
+// import {useMutation} from "@tanstack/react-query";
 import {
   findMatchingAlphaColors,
   getBrightness,
@@ -60,23 +60,23 @@ export default function Home() {
     return `rgba(${color.r},${color.g},${color.b},${color.a})`;
   }
 
-  const mutation = useMutation<void, Error, AlphaColorRequest>({mutationFn: async (req: AlphaColorRequest) : Promise<void> => {
-    const res = await fetch('http://localhost:5051/Color/AlphaAdjustedColor', {
-      method: "POST", body: JSON.stringify(req), headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!res.ok) throw new Error('Network response failed');
-    setColors(await res.json() as Color[]);
-  }, onSuccess: (data) => {
-      console.log('Color adjusted:', data);
-      alert('Color successfully adjusted');
-    },
-    onError: (error) => {
-      console.error('Error:', error);
-      alert('Failed to adjust color');
-    },
-  });
+  // const mutation = useMutation<void, Error, AlphaColorRequest>({mutationFn: async (req: AlphaColorRequest) : Promise<void> => {
+  //   const res = await fetch('http://localhost:5051/Color/AlphaAdjustedColor', {
+  //     method: "POST", body: JSON.stringify(req), headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  //   if (!res.ok) throw new Error('Network response failed');
+  //   setColors(await res.json() as Color[]);
+  // }, onSuccess: (data) => {
+  //     console.log('Color adjusted:', data);
+  //     alert('Color successfully adjusted');
+  //   },
+  //   onError: (error) => {
+  //     console.error('Error:', error);
+  //     alert('Failed to adjust color');
+  //   },
+  // });
 
 
 
@@ -132,7 +132,7 @@ export default function Home() {
       setColors(findMatchingAlphaColors(foreground,background))
       return
     }
-    mutation.mutate(colorData);
+    // mutation.mutate(colorData);
   };
 
   //filters
@@ -198,9 +198,9 @@ export default function Home() {
   }
 
   return (
-    <div className="flex w-full items-center justify-items-center min-h-screen gap-14 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex p-4 w-full font-[family-name:var(--font-geist-sans)]">
 
-      <main className="p-6 flex flex-row container min-h-screen sm:p-12 sm:pt-6 flex flex-col gap-[32px] md:flex-col" >
+      <main className="flex flex-row container m-auto gap-[32px] md:flex-col" >
         
         <aside className="flex flex-col space-y-4 w-[312px]">
 
@@ -238,7 +238,7 @@ export default function Home() {
               <span className="text-sm font-medium m-auto">{maxColorsNormalized}</span>
             </div>
           </div>
-          {mutation.isPending ? (
+          {/* {mutation.isPending ? (
             'Adding todo...'
         ) : (
             <>
@@ -248,7 +248,7 @@ export default function Home() {
 
               {mutation.isSuccess ? <div>Fetched!</div> : null}
             </>
-        )}
+        )} */}
         </aside>
 
         <div className="main-wrapper flex-col flex w-full">

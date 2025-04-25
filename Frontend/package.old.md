@@ -11,6 +11,7 @@
     "deploy": "npx gh-pages -d out -t"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.74.4",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "next": "15.3.1",

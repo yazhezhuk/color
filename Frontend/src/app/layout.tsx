@@ -1,7 +1,7 @@
 "use client"
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import Providers from '../providers';
+// import Providers from '../providers';
 import Navbar from "@/components/Navbar";
 // import {AlertBox} from "@/app/AlertBox";
 import React from "react";
@@ -32,11 +32,9 @@ export default function RootLayout({
           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
           <title>Color</title>
       </head>
-      <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar/>
-        <Providers>{children}</Providers>
+        <div>{children}</div>
         <Footer/>
       </body>
       </html>
