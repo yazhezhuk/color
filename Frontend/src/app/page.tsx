@@ -42,7 +42,7 @@ export default function Home() {
   const [previousBrightness, setPreviousBrightness] = useState(0);
 
   const [background, setBackground] = useState("f5f4f8");
-  const [foreground, setForeground] = useState("ffffff");
+  const [foreground, setForeground] = useState("dddeef");
 
   const [maxColors, setMaxColors] = useState(5);
   const [maxColorsNormalized, setMaxColorsNormalized] = useState(5);
@@ -198,7 +198,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex p-4 w-full font-[family-name:var(--font-geist-sans)]">
+    <div className="flex px-4 py-8 w-full font-[family-name:var(--font-geist-sans)]">
 
       <main className="flex flex-row container m-auto gap-[32px] md:flex-col" >
         
@@ -207,7 +207,7 @@ export default function Home() {
            {/*text*/}
           <div className="flex flex-col">
             {/* <span style={{fontSize: 22, backgroundImage: `linear-gradient(45deg, ${'#'+foreground}, ${'#'+background})`}} className='bg-clip-text text-transparent font-bold'>Tintelligent</span> */}
-            <span style={{fontSize: 22, color: '#121212'}} className='text-transparent font-bold'>Tintelligent</span>
+            <span style={{fontSize: 22, color: '#121212'}} className='text-transparent font-bold'>Choose Colors</span>
             <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Auto-generate foreground tints with transparency — perfect look on any background.</span>
           </div>
 
@@ -254,7 +254,7 @@ export default function Home() {
         <div className="main-wrapper flex-col flex w-full">
           <div className="flex flex-col">
             <span style={{fontSize: 22}} className='font-bold'>Alpha adjusted tints</span>
-            <div className="flex flex-row my-3 gap-12">
+            <div className="flex flex-row my-3 gap-4">
               {/*filters*/}
               <div className="flex flex-col gap-1 w-full">
                 <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select opacity range</span>

@@ -22,7 +22,7 @@ export const ColorCard = ({ style,alpha, hex }: CardProps) => {
     };
 
     return (
-        <div onClick={handleCardClick} className="flex h-full p-5 flex-col justify-center items-center rounded-lg" style={style}>
+        <div onClick={handleCardClick} className="flex h-full p-5 flex-col justify-center items-center rounded-lg cursor-pointer" style={style}>
             {showAlert && (
                 <AlertBox
                     message={"Copied #" + hex}
