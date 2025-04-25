@@ -198,51 +198,29 @@ export default function Home() {
   }
 
   return (
-    <div className="grid w-full items-center justify-items-center min-h-screen gap-14 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex w-full items-center justify-items-center min-h-screen gap-14 font-[family-name:var(--font-geist-sans)]">
 
-      <main className="p-6 container min-h-screen sm:p-12 sm:pt-6 flex flex-col gap-[32px] md:grid md:grid-cols-[minmax(225px,_0.1fr)_minmax(550px,_1fr)] md:grid-rows-[minmax(50px,_0.1fr)_minmax(350px,_0.5fr)_minmax(150px,_0.2fr)]" >
-        {/*text*/}
-        <div className="flex flex-col space-y-4">
+      <main className="p-6 container min-h-screen sm:p-12 sm:pt-6 flex flex-col gap-[32px] md:flex-col" >
+        
+        <aside className="flex flex-col space-y-4 w-[312px]">
+
+           {/*text*/}
           <div className="flex flex-col">
             <span style={{fontSize: 22, backgroundImage: `linear-gradient(45deg, ${'#'+foreground}, ${'#'+background})`}} className='bg-clip-text text-transparent font-bold'>Tintelligent</span>
             <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Auto-generate foreground tints with transparency — perfect look on any background.</span>
           </div>
-        </div>
-        <div className="flex flex-col">
-          <span style={{fontSize: 22}} className='font-bold'>Alpha adjusted tints</span>
-          <div className="flex flex-row my-3 gap-12">
-            {/*filters*/}
-            <div>
-              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select opacity range</span>
-              <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='5' onChange={handleAlphaRangeChange}>
-                <option value="1">0-5</option>
-                <option value="2">5-10</option>
-                <option value="3">10-15</option>
-                <option value="4">15-20</option>
-                <option value="5">0-100</option>
-              </select>
-            </div>
-            <div>
-              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select alpha precision</span>
-              <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2' onChange={handleAlphaPrecisionChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        {/*input bar*/}
-        <div className="flex flex-col space-y-4">
-          <ColorInput isBackground={false} text={'Foreground'} hex={foreground} onColorChange={setForeground}/>
-          <ColorInput isBackground={true} text={'Background'} hex={background} onColorChange={setBackground}/>
-          <button style={{backgroundColor: '#'+ fontColor, color: '#'+invertColor(fontColor)}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
-            Get colors
-          </button>
-          <div className="flex flex-col">
-            <label className="text-sm font-medium">Select range</label>
 
-            <input
+          {/*input bar*/}
+          <div className="flex flex-col space-y-4">
+            <ColorInput isBackground={false} text={'Foreground'} hex={foreground} onColorChange={setForeground}/>
+            <ColorInput isBackground={true} text={'Background'} hex={background} onColorChange={setBackground}/>
+            <button style={{backgroundColor: '#'+ fontColor, color: '#'+invertColor(fontColor)}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
+              Get colors
+            </button>
+            <div className="flex flex-col">
+              <label className="text-sm font-medium">Select range</label>
+
+              <input
                 type="range"
                 className=" rounded "
                 value={maxColors}
@@ -251,8 +229,8 @@ export default function Home() {
                 min={7.45}
                 step="0.1"
                 style={{accentColor: 'black',transitionProperty: 'all', transitionDuration: '0.5s', transitionTimingFunction: 'linear'}}
-            />
-            <span className="text-sm font-medium m-auto">{maxColorsNormalized}</span>
+              />
+              <span className="text-sm font-medium m-auto">{maxColorsNormalized}</span>
             </div>
           </div>
           {mutation.isPending ? (
@@ -266,7 +244,37 @@ export default function Home() {
               {mutation.isSuccess ? <div>Fetched!</div> : null}
             </>
         )}
-        {/*colorі section*/}
+        </aside>
+
+        <div className="flex flex-col">
+          <span style={{fontSize: 22}} className='font-bold'>Alpha adjusted tints</span>
+          <div className="flex flex-row my-3 gap-12">
+            {/*filters*/}
+            <div className="flex flex-column gap-1">
+              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select opacity range</span>
+              <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='5' onChange={handleAlphaRangeChange}>
+                <option value="1">0-5</option>
+                <option value="2">5-10</option>
+                <option value="3">10-15</option>
+                <option value="4">15-20</option>
+                <option value="5">0-100</option>
+              </select>
+            </div>
+            
+            <div className="flex flex-column gap-1">
+              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select alpha precision</span>
+              <select className="rounded p-1 mx-1" style={{backgroundColor: '#0000000F'}} defaultValue='2' onChange={handleAlphaPrecisionChange}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="main-wrapper">
+
+          {/*colorі section*/}
           <div className={`grid mt-7 p-6 grid-cols-5 grid-rows-4 rounded-xl gap-[12px]`} style={{backgroundColor: '#'+background, color: foregroundFontColor}}>
             { colors.length !== 0
                 ?
@@ -299,59 +307,59 @@ export default function Home() {
                 </div>)
             }
           </div>
-        {/*ui example*/}
-        <div className={`flex flex-col col-start-2 mt-7 rounded-xl gap-[12px]`} >
-          <div className="flex flex-col">
-            <span style={{fontSize: 22}} className='font-bold'>UI Example</span>
-            <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Tintelligent</span>
-          </div>
-        <div className="grid p-6 grid-cols-2 rounded-xl gap-[12px]" style={{backgroundColor: '#'+background, color: '#'+fontColor}}>
-          <div className="flex flex-col gap-y-5">
-            <span className='font-medium text-lg'>Before adjustment</span>
-            <div>
-              <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-              <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
-                Placeholder
-              </div>
+
+
+          {/*ui example*/}
+          <div className={`flex flex-col col-start-2 mt-7 rounded-xl gap-[12px]`} >
+            <div className="flex flex-col">
+              <span style={{fontSize: 22}} className='font-bold'>UI Example</span>
+              <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Tintelligent</span>
             </div>
-            <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
-              <span className='font-medium text-lg'>Card label</span>
-              <div className="mt-3">
-                <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
-                  Placeholder
+            <div className="grid p-6 grid-cols-2 rounded-xl gap-[12px]" style={{backgroundColor: '#'+background, color: '#'+fontColor}}>
+              <div className="flex flex-col gap-y-5">
+                <span className='font-medium text-lg'>Before adjustment</span>
+                <div>
+                  <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
+                  <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
+                    Placeholder
+                  </div>
+                </div>
+                <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
+                  <span className='font-medium text-lg'>Card label</span>
+                  <div className="mt-3">
+                    <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
+                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
+                      Placeholder
+                    </div>
+                  </div>
                 </div>
               </div>
+              { colors.length !== 0
+                  ?
+                  (<div className="flex flex-col gap-y-5">
+                <span className='font-medium text-lg'>After adjustment</span>
+                <div>
+                  <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
+                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
+                    Placeholder
+                  </div>
+                </div>
+                <div style={{backgroundColor:'#' + foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
+                  <span className='font-medium text-lg'>Card label</span>
+                  <div className="mt-3">
+                    <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
+                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
+                      Placeholder
+                    </div>
+                  </div>
+                </div>
+              </div>)
+                  :
+                  (<span style={{color: '#'+fontColor}} className='font-medium content-center text-lg text-center'>Waiting for your input...</span>)}
             </div>
           </div>
-          { colors.length !== 0
-              ?
-              (<div className="flex flex-col gap-y-5">
-            <span className='font-medium text-lg'>After adjustment</span>
-            <div>
-              <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-              <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
-                Placeholder
-              </div>
-            </div>
-            <div style={{backgroundColor:'#' + foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
-              <span className='font-medium text-lg'>Card label</span>
-              <div className="mt-3">
-                <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
-                  Placeholder
-                </div>
-              </div>
-            </div>
-          </div>)
-              :
-              (<span style={{color: '#'+fontColor}} className='font-medium content-center text-lg text-center'>Waiting for your input...</span>)}
+
         </div>
-        </div>
-        <footer className="m-auto items-center justify-end">
-          <div style={{borderColor: 'rgba(0, 0, 0, 0.12)'}} className='py-2 mt-12 space-x-2 border-t-1'>Powered by
-            <span style={{color:'#999999'}}><a href="https://t.me/yazhezhuk"> @yazhehuk</a></span><span style={{color:'#999999'}}><a  href="https://t.me/korytsky">@korytsky</a></span></div>
-        </footer>
       </main>
 
     </div>
