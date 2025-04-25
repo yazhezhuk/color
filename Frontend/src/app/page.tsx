@@ -2,7 +2,7 @@
 
 import ColorInput from "@/components/ColorInput";
 import React, {useEffect, useState} from "react";
-import {useMutation} from "@tanstack/react-query";
+// import {useMutation} from "@tanstack/react-query";
 import {
   findMatchingAlphaColors,
   getBrightness,
@@ -42,7 +42,7 @@ export default function Home() {
   const [previousBrightness, setPreviousBrightness] = useState(0);
 
   const [background, setBackground] = useState("f5f4f8");
-  const [foreground, setForeground] = useState("ffffff");
+  const [foreground, setForeground] = useState("dddeef");
 
   const [maxColors, setMaxColors] = useState(5);
   const [maxColorsNormalized, setMaxColorsNormalized] = useState(5);
@@ -60,23 +60,23 @@ export default function Home() {
     return `rgba(${color.r},${color.g},${color.b},${color.a})`;
   }
 
-  const mutation = useMutation<void, Error, AlphaColorRequest>({mutationFn: async (req: AlphaColorRequest) : Promise<void> => {
-    const res = await fetch('http://localhost:5051/Color/AlphaAdjustedColor', {
-      method: "POST", body: JSON.stringify(req), headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!res.ok) throw new Error('Network response failed');
-    setColors(await res.json() as Color[]);
-  }, onSuccess: (data) => {
-      console.log('Color adjusted:', data);
-      alert('Color successfully adjusted');
-    },
-    onError: (error) => {
-      console.error('Error:', error);
-      alert('Failed to adjust color');
-    },
-  });
+  // const mutation = useMutation<void, Error, AlphaColorRequest>({mutationFn: async (req: AlphaColorRequest) : Promise<void> => {
+  //   const res = await fetch('http://localhost:5051/Color/AlphaAdjustedColor', {
+  //     method: "POST", body: JSON.stringify(req), headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  //   if (!res.ok) throw new Error('Network response failed');
+  //   setColors(await res.json() as Color[]);
+  // }, onSuccess: (data) => {
+  //     console.log('Color adjusted:', data);
+  //     alert('Color successfully adjusted');
+  //   },
+  //   onError: (error) => {
+  //     console.error('Error:', error);
+  //     alert('Failed to adjust color');
+  //   },
+  // });
 
 
 
@@ -132,7 +132,7 @@ export default function Home() {
       setColors(findMatchingAlphaColors(foreground,background))
       return
     }
-    mutation.mutate(colorData);
+    // mutation.mutate(colorData);
   };
 
   //filters
@@ -198,16 +198,16 @@ export default function Home() {
   }
 
   return (
-    <div className="flex w-full items-center justify-items-center min-h-screen gap-14 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex px-4 py-8 w-full font-[family-name:var(--font-geist-sans)]">
 
-      <main className="p-6 flex flex-row container min-h-screen sm:p-12 sm:pt-6 flex flex-col gap-[32px] md:flex-col" >
+      <main className="flex flex-row container m-auto gap-[32px] md:flex-col" >
         
         <aside className="flex flex-col space-y-4 w-[312px]">
 
            {/*text*/}
           <div className="flex flex-col">
             {/* <span style={{fontSize: 22, backgroundImage: `linear-gradient(45deg, ${'#'+foreground}, ${'#'+background})`}} className='bg-clip-text text-transparent font-bold'>Tintelligent</span> */}
-            <span style={{fontSize: 22, color: '#121212'}} className='text-transparent font-bold'>Tintelligent</span>
+            <span style={{fontSize: 22, color: '#121212'}} className='text-transparent font-bold'>Choose Colors</span>
             <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Auto-generate foreground tints with transparency — perfect look on any background.</span>
           </div>
 
@@ -218,7 +218,7 @@ export default function Home() {
             {/* <button style={{backgroundColor: '#'+ fontColor, color: '#'+invertColor(fontColor)}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
               Get colors
             </button> */}
-            <button style={{backgroundColor: '#121212', color: '#ffffff'}} className="font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
+            <button style={{backgroundColor: '#121212', color: '#ffffff'}} className="cursor-pointer font-medium rounded-lg py-2 w-full border-1" onClick={handleSubmit}>
               Get colors
             </button>
 
@@ -238,7 +238,7 @@ export default function Home() {
               <span className="text-sm font-medium m-auto">{maxColorsNormalized}</span>
             </div>
           </div>
-          {mutation.isPending ? (
+          {/* {mutation.isPending ? (
             'Adding todo...'
         ) : (
             <>
@@ -248,13 +248,13 @@ export default function Home() {
 
               {mutation.isSuccess ? <div>Fetched!</div> : null}
             </>
-        )}
+        )} */}
         </aside>
 
         <div className="main-wrapper flex-col flex w-full">
           <div className="flex flex-col">
             <span style={{fontSize: 22}} className='font-bold'>Alpha adjusted tints</span>
-            <div className="flex flex-row my-3 gap-12">
+            <div className="flex flex-row my-3 gap-4">
               {/*filters*/}
               <div className="flex flex-col gap-1 w-full">
                 <span style={{fontSize: 16, color: '#999999'}} className='font-light'>Select opacity range</span>
@@ -338,15 +338,15 @@ export default function Home() {
                 <span className='font-medium text-lg'>Before adjustment</span>
                 <div>
                   <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-                  <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
+                  <div  style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-3 rounded-lg w-full '>
                     Placeholder
                   </div>
                 </div>
-                <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
+                <div style={{backgroundColor:'#'+foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-full '>
                   <span className='font-medium text-lg'>Card label</span>
                   <div className="mt-3">
                     <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
+                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:'#'+foreground,color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-full '>
                       Placeholder
                     </div>
                   </div>
@@ -358,15 +358,15 @@ export default function Home() {
                 <span className='font-medium text-lg'>After adjustment</span>
                 <div>
                   <span style={{color: '#'+secondaryFontColor}} className='text-md'>Input label</span>
-                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-3/4 '>
+                  <div  style={{backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor}} className='p-3 rounded-lg w-full '>
                     Placeholder
                   </div>
                 </div>
-                <div style={{backgroundColor:'#' + foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-3/4 '>
+                <div style={{backgroundColor:'#' + foreground,color: foregroundFontColor}} className='p-5 rounded-lg w-full '>
                   <span className='font-medium text-lg'>Card label</span>
                   <div className="mt-3">
                     <span style={{color: '#'+secondaryForegroundFontColor}} className='text-md'>Input label</span>
-                    <div style={{'--color': '23B57373FF',borderColor: '#'+secondaryForegroundFontColor,backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 border border-dashed rounded-lg w-3/4 '>
+                    <div style={{'--color': '23B57373FF',backgroundColor:getColorStringNormalized(colors[0]),color: foregroundFontColor} as React.CSSProperties} className='p-3 rounded-lg w-full '>
                       Placeholder
                     </div>
                   </div>
