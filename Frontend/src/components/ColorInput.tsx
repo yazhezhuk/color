@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useRef, useState} from 'react';
-import ColorPicker from "@/app/components/ColorPicker";
+import ColorPicker from "@/components/ColorPicker";
 
 type ColorInputProps = {
     isBackground: boolean;
@@ -82,14 +82,15 @@ export default function ColorInput(props: ColorInputProps) {
     // }, [r, g, b]);
 
         return (
-            <div className="flex flex-col flex-wrap rounded space-y-2">
+            <div className="flex flex-col w-full rounded space-y-2">
                 <label className="font-medium">{props.text}</label>
                 <div className="relative w-fit">
                     <div onClick={() => setShowPicker(!showPicker)} style={{borderColor:'rgba(217, 217, 217, 1)',backgroundColor: '#'+ props.hex}} className='rounded border h-6 w-6 absolute left-2 top-1/2 -translate-y-1/2 '></div>
                     <span className="absolute left-9 top-1/2 -translate-y-1/2  pointer-events-none select-none">#</span>
                     <input
                         type="text"
-                        className="w-full pl-11 py-2 border rounded outline-none"
+                        className="w-full pl-11 py-2 rounded outline-none"
+                        style={{backgroundColor: 'rgba(0, 0, 0, 0.06)'}}
                         maxLength={7}
                         value={color}
                         onChange={handleColorTextChange}
@@ -119,5 +120,3 @@ export default function ColorInput(props: ColorInputProps) {
             </div>
         );
 }
-
-
