@@ -274,7 +274,7 @@ export default function Home() {
           </div>
 
           {/*colorі section*/}
-          <div className={`grid mt-7 p-6 grid-cols-5 grid-rows-[${maxColors/5}] rounded-xl gap-[12px]`} style={{backgroundColor: '#'+background, color: '#'+foregroundFontColor}}>
+          <div className={`grid mt-7 p-6 grid-cols-5 grid-rows-${maxColors/5} rounded-xl gap-[12px]`} style={{backgroundColor: '#'+background, color: '#'+foregroundFontColor}}>
             { colors.length !== 0
                 ?
                 (filterColor(colors).length !== 0 ?
